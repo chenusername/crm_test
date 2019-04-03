@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.crm.test.dao.UserDao">
+ 	<select id="getUserListByCondition" resultType="User">
+ 		select                
+ 			id                ,
+			login_name        ,
+			login_pwd         ,
+			real_name         ,
+			email             ,
+			last_login_time   
+ 		from tbl_user
+ 		<where>
+ 			<if test="login_name !=null and login_name !=''">
+ 				login_name like '%' #{login_name} '%'
+ 			</if>
+ 			<if test="real_name !=null and real_name !=''">
+ 				and real_name like '%' #{realName} '%'
+ 			</if>
+ 			<if test="last_login_time !=null and last_login_time !=''">
+ 				and last_login_time &lt; #{lastLoginTime} 
+ 			</if>
+ 		</where>
+ 		order by #{lastLoginTime}
+ 		limit #{skipCount} ,#{pageSize}
+ 	</select>
+
+	<select id="getTotalByCondition" resultType="int">
+		select      count(*)
+ 			
+ 		from tbl_user
+ 		<where>
+ 			<if test="login_name !=null and login_name !=''">
+ 				login_name like '%' #{login_name} '%'
+ 			</if>
+ 			<if test="real_name !=null and real_name !=''">
+ 				and real_name like '%' #{real_name} '%'
+ 			</if>
+ 			<if test="last_login_time !=null and last_login_time !=''">
+ 				and last_login_time &lt; #{last_login_time} 
+ 			</if>
+ 		</where>
+	</select>
+
+</mapper>
